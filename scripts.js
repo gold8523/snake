@@ -37,12 +37,14 @@ function drawScore() {
 };
 
 function gameOver() {
+    // clearTimeout(timerId);
     clearInterval(intervalId);
     ctx.font = "60px Comic Sans MS";
     ctx.fillStyle = "Black";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("Конец игры!", width / 2, height / 2);
+    ctx.fillText("Конец игры!", width / 2, height / 2 - 30);
+    ctx.fillText("Ваш счет " + score, width / 2, height / 2 + 30);
 };
 
 let Block = function(col, row) {
@@ -86,8 +88,13 @@ let Apple = function() {
 };
 
 Snake.prototype.draw = function() {
-    for (let i = 0; i < this.segments.length; i++) {
-        this.segments[i].drawSquare("Blue");
+    this.segments[0].drawSquare("Blue");
+    for (let i = 1; i < this.segments.length; i++) {
+        if (i % 2 === 0) {
+            this.segments[i].drawSquare("Orange");
+        } else {
+            this.segments[i].drawSquare("Turquoise");
+        }
     };
 };
 
@@ -116,7 +123,18 @@ Snake.prototype.move = function() {
 
     if (newHead.equal(apple.position)) {
         score++;
+        clearInterval(intervalId);
+
+        if (animationTime < 50) {
+            animationTime = 50;
+        } else {
+            animationTime -= 2;
+        };
+
+        intervalId = setInterval(game, animationTime);
+
         apple.move();
+        
     } else {
         this.segments.pop();
     };
@@ -162,11 +180,15 @@ Apple.prototype.draw = function() {
 Apple.prototype.move = function() {
     let randomCol = Math.floor(Math.random() * (widthInBlocks - 2)) + 1;
     let randomRow = Math.floor(Math.random() * (heightInBlocks - 2)) + 1;
+
     this.position = new Block(randomCol, randomRow);
 };
 
 let snake = new Snake();
 let apple = new Apple();
+
+let animationTime = 300;
+let timerId;
 
 let directions = {
     37: "left",
@@ -175,19 +197,25 @@ let directions = {
     40: "down"
 };
 
-$("body").keydown(function(event) {
-    let newDirection = directions[event.keyCode];
-    if (newDirection !== undefined) {
-        snake.setDirection(newDirection);
-    };
-    // console.log(directions[event.keyCode]);
-});
 
-let intervalId = setInterval(function() {
+
+function game() {
     ctx.clearRect(0, 0, width, height);
     drawScore();
     snake.move();
     snake.draw();
     apple.draw();
     drawBorder();
-}, 150);
+
+    // timerId = setTimeout(game, animationTime);
+}; 
+// game();
+
+let intervalId = setInterval(game, animationTime);
+
+$("body").keydown(function(event) {
+    let newDirection = directions[event.keyCode];
+    if (newDirection !== undefined) {
+        snake.setDirection(newDirection);
+    };
+});
