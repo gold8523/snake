@@ -219,3 +219,11 @@ $("body").keydown(function(event) {
         snake.setDirection(newDirection);
     };
 });
+
+$("body").swipe(function(event) {
+    let newDirection = event.direction;
+    console.log(newDirection);
+    // if (newDirection !== undefined) {
+    //     snake.setDirection(newDirection);
+    // };
+});
