@@ -222,33 +222,9 @@ $("body").keydown(function(event) {
     };
 });
 
-$("body").swipe( {
-    swipeUp:function(direction) {
-        newDirection = direction;
-        if (newDirection !== undefined) {
-            snake.setDirection(newDirection);
-        };
-    },
-    swipeDown:function(direction) {
-        newDirection = direction;
-        if (newDirection !== undefined) {
-            snake.setDirection(newDirection);
-        };
-    },
-    swipeRight:function(direction) {
-        newDirection = direction;
-        if (newDirection !== undefined) {
-            snake.setDirection(newDirection);
-        };
-    },
-    swipeLeft:function(direction) {
-        newDirection = direction;
-        if (newDirection !== undefined) {
-            snake.setDirection(newDirection);
-        };
-    }
-    // click:function(event, target) { 
-    // },
-    // threshold:100,
-    // allowPageScroll:"vertical"
+$("body").swipeDown(function() {
+    newDirection = "down";
+    if (newDirection !== undefined) {
+        snake.setDirection(newDirection);
+    };
 });
