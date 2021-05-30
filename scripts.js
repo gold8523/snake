@@ -7,6 +7,8 @@ let blockSize = 10;
 let widthInBlocks = width / blockSize;
 let heightInBlocks = height / blockSize;
 
+let newDirection;
+
 let score = 0;
 
 function circle(x, y, radius, fillCircle) {
@@ -214,16 +216,39 @@ function game() {
 let intervalId = setInterval(game, animationTime);
 
 $("body").keydown(function(event) {
-    let newDirection = directions[event.keyCode];
+    newDirection = directions[event.keyCode];
     if (newDirection !== undefined) {
         snake.setDirection(newDirection);
     };
 });
 
-$("body").swipe(function(event) {
-    let newDirection = event.direction;
-    console.log(newDirection);
-    // if (newDirection !== undefined) {
-    //     snake.setDirection(newDirection);
-    // };
+$("body").swipe( {
+    swipeUp:function(direction) {
+        newDirection = direction;
+        if (newDirection !== undefined) {
+            snake.setDirection(newDirection);
+        };
+    },
+    swipeDown:function(direction) {
+        newDirection = direction;
+        if (newDirection !== undefined) {
+            snake.setDirection(newDirection);
+        };
+    },
+    swipeRight:function(direction) {
+        newDirection = direction;
+        if (newDirection !== undefined) {
+            snake.setDirection(newDirection);
+        };
+    },
+    swipeLeft:function(direction) {
+        newDirection = direction;
+        if (newDirection !== undefined) {
+            snake.setDirection(newDirection);
+        };
+    }
+    // click:function(event, target) { 
+    // },
+    // threshold:100,
+    // allowPageScroll:"vertical"
 });
